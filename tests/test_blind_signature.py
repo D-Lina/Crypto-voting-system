@@ -10,6 +10,7 @@ private_key = (2753, 3233)
 def verify(signature, message, public_key):
     e, n = public_key
     return pow(signature, e, n) == message
+
 def test_blind_signature():
     message = 7  # valid vote
     print("Original message:", message)
