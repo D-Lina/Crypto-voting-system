@@ -3,7 +3,7 @@ from typing import Tuple, Callable
 
 from core.utils.audit_log import log_action
 from core.utils.counters import increment_total, increment_rejected
-from core.utils.blind_utils import validate_vote
+from core.utils.utils import validate_vote
 
 def generate_blinding_factor(n: int) -> int:
     return random.randint(2, n - 1)
@@ -46,5 +46,4 @@ def unblind_signature(blind_signature: int, r: int, public_key: Tuple[int, int])
     log_action("Signature unblinded", {
         "signature": signature
     })
-
     return signature
