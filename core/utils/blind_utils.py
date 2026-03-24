@@ -1,9 +1,9 @@
-def convert_vote_to_int(vote):
+import hashlib
+def hash_message(message: int) -> int:
     """
-    Convert vote (0–10) into integer message.
+    Temporary hash function (to be replaced later).
+    Converts message into SHA-256 hash (integer form).
     """
-    return int(vote)
-
-def validate_vote(vote):
-    if not (0 <= vote <= 10):
-        raise ValueError("Vote must be between 0 and 10")
+    message_bytes = str(message).encode()
+    hash_hex = hashlib.sha256(message_bytes).hexdigest()
+    return int(hash_hex, 16)
