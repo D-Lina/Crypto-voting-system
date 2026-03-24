@@ -2,6 +2,7 @@ import hashlib
 import json
 from typing import Optional
 last_hash: Optional[str] = None
+
 def log_action(action: str, data):
     global last_hash
     data_str = json.dumps(data, sort_keys=True)
