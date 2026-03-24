@@ -1,25 +1,33 @@
 import random
-from typing import Tuple
+from typing import Tuple, Callable
 
 from core.utils.audit_log import log_action
 from core.utils.counters import increment_total, increment_rejected
 from core.utils.blind_utils import validate_vote
-# Generate blinding factor
+
 def generate_blinding_factor(n: int) -> int:
     return random.randint(2, n - 1)
-# Step 1: Blind message
-def blind_message(message: int, public_key: Tuple[int, int]):
-    validate_vote(message)
-    increment_total()
+def blind_message(
+    message: int,
+    public_key: Tuple[int, int],
+    hash_func: Callable[[int], int]
+):
+    try:
+        validate_vote(message)
+        increment_total()
+    except ValueError:
+        increment_rejected()
+        raise
     e, n = public_key
+    hashed = hash_func(message)
     r = generate_blinding_factor(n)
-    blinded = (message * pow(r, e, n)) % n
+    blinded = (hashed * pow(r, e, n)) % n
     log_action("Message blinded", {
         "message": message,
+        "hashed": hashed,
         "blinded": blinded
     })
     return blinded, r
-# Step 2: Sign blinded message
 def blind_sign(blinded_message: int, private_key: Tuple[int, int]):
     d, n = private_key
     signed = pow(blinded_message, d, n)
@@ -28,7 +36,6 @@ def blind_sign(blinded_message: int, private_key: Tuple[int, int]):
         "signed": signed
     })
     return signed
-# Step 3: Unblind signature
 def unblind_signature(blind_signature: int, r: int, public_key: Tuple[int, int]):
     _, n = public_key
     try:
@@ -39,4 +46,5 @@ def unblind_signature(blind_signature: int, r: int, public_key: Tuple[int, int])
     log_action("Signature unblinded", {
         "signature": signature
     })
+
     return signature
