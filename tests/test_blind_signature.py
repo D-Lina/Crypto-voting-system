@@ -9,9 +9,9 @@ from core.utils.counters import get_stats
 public_key = (17, 3233)
 private_key = (2753, 3233)
 
-def verify(signature, message, public_key, hash_func):
+defdef verify(signature, message, public_key, hash_func):
     e, n = public_key
-    hashed = hash_func(message)
+    hashed = hash_func(message) % n
     return pow(signature, e, n) == hashed
 def test_blind_signature():
     message = 7
