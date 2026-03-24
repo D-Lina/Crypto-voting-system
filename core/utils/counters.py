@@ -1,5 +1,6 @@
 total_votes = 0
 rejected_votes = 0
+
 def increment_total():
     global total_votes
     total_votes += 1
