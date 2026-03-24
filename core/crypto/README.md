@@ -8,7 +8,7 @@ Blind Signature Module :
  Functions:
  - blind_message()  - blind_sign()   - unblind_signature()
 
-RSA:
+RSA: <br>    
 RSA is an asymmetric algorithm using a public/private key pair, secured by the integer factorization problem — given n = p × q, recovering p and q is computationally infeasible.
 In a voting system it serves two roles:
 -Encryption — the voter's ballot is encrypted with the authority's public key (c = mᵉ mod n). Only the authority's private key can decrypt it (m = cᵈ mod n), ensuring ballot secrecy from submission to tallying.
