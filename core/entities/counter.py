@@ -1,7 +1,7 @@
-from crypto.rsa import generate_keys, decrypt, verify
-from utils.audit_log import log_action
-from database.database import SessionLocal
-from database.models import Resultat
+from core.crypto.rsa import generate_keys, decrypt, verify
+from core.utils.audit_log import log_action
+from databases.database import SessionLocal
+from databases.models import Resultat
 
 
 class Counter:
