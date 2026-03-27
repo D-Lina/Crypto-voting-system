@@ -1,6 +1,6 @@
-from crypto.rsa import generate_keys
-from crypto.blind_signature import blind_sign
-from utils.audit_log import log_action
+from core.crypto.rsa import generate_keys
+from core.crypto.blind_signature import blind_sign
+from core.utils.audit_log import log_action
 
 """
     Election administrator — issues authenticated ballots via blind signatures.
