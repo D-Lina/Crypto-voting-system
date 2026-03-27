@@ -1,4 +1,4 @@
-from core.utils.audit_log import log_action
+from utils.audit_log import log_action
 from database.database import SessionLocal
 from database.models import Bulletin
 
