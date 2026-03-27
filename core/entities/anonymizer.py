@@ -1,6 +1,6 @@
-from utils.audit_log import log_action
-from database.database import SessionLocal
-from database.models import Bulletin
+from core.utils.audit_log import log_action
+from databases.database import SessionLocal
+from databases.models import Bulletin
 
 
 class Anonymizer:
