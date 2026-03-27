@@ -1,5 +1,5 @@
-from core.crypto.tth_hash import ToyTetragraphHash
-from core.utils.audit_log import log_action
+from crypto.tth_hash import ToyTetragraphHash
+from utils.audit_log import log_action
 from database.database import SessionLocal
 from database.models import Electeur
 
