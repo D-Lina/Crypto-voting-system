@@ -1,7 +1,7 @@
-from crypto.tth_hash import ToyTetragraphHash
-from utils.audit_log import log_action
-from database.database import SessionLocal
-from database.models import Electeur
+from core.crypto.tth_hash import ToyTetragraphHash
+from core.utils.audit_log import log_action
+from databases.database import SessionLocal
+from databases.models import Electeur
 
 
 class Commissioner:
