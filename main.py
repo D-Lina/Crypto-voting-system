@@ -1,5 +1,7 @@
 from core.protocol.VotingSession import VotingSession
 from core.protocol.voter import Voter
+from databases.database import engine
+from databases.models import Base
 import sqlite3
 
 # -----------------------------
@@ -56,6 +58,7 @@ def main():
     ]
 
     # 3. Setup election
+    Base.metadata.create_all(bind=engine)
     session.setup_election(
         voters=voters_data,
         admin_primes=(61, 53),
