@@ -54,4 +54,3 @@ class Administrator:
         signed = blind_sign(blinded_message, self._keys["private"])
         log_action("Blind signature issued", {"blinded_message": blinded_message})
         return signed
-    
