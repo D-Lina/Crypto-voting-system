@@ -1,12 +1,19 @@
 import random
 from typing import Tuple, Callable
 
-from core.utils.audit_log import log_action
-from core.utils.counters import increment_total, increment_rejected
-from core.utils.utils import validate_vote
+from utils.audit_log import log_action
+from utils.counters import increment_total, increment_rejected
+from utils.utils import validate_vote
+
+from math import gcd
+
+print("BLIND SIGNATURE FILE LOADED")
 
 def generate_blinding_factor(n: int) -> int:
-    return random.randint(2, n - 1)
+    while True:
+        r = random.randint(2, n - 1)
+        if gcd(r, n) == 1:
+            return r
 def blind_message(
     message: int,
     public_key: Tuple[int, int],
