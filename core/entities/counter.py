@@ -1,6 +1,6 @@
 from crypto.rsa import generate_keys, decrypt, verify
 from utils.audit_log import log_action
-
+from utils.blind_utils import hash_message
 """
     Vote counter — decrypts and validates ballots after the election closes.
 
@@ -40,8 +40,12 @@ class Counter:
         return decrypt(vote_chiffre, self._keys["private"])
     
     ## Calls verify from RSA.py
+    from utils.blind_utils import hash_message
+
     def verify_ballot_signature(self, note: int, signature: int) -> bool:
-        return verify(note, signature, self._admin_public_key)
+     e, n = self._admin_public_key
+     hashed_note = hash_message(note) % n   # 🔥 IMPORTANT FIX
+     return pow(signature, e, n) == hashed_note
     
     ## MAIN COUNTER FUNCTION, matches the "Resultat" form
     def count_ballots(self, ballots: list[dict]) -> dict:
