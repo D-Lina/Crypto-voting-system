@@ -1,8 +1,6 @@
-
-# rsa_module.py
 from math import gcd
 
-# ── functions need  ─────────────────────────
+# ── Math utilities ─────────────────────────
 
 def extended_gcd(a, b):
     if a == 0:
