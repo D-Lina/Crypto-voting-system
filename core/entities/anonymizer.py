@@ -1,4 +1,4 @@
-from utils.audit_log import log_action
+from core.utils.audit_log import log_action
 
 """
     Anonymizer — the ballot box of the protocol.
