@@ -26,9 +26,8 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from typing import Optional
 
-from core.protocol.votingsession import VotingSession
+from core.protocol.VotingSession import VotingSession
 from core.protocol.voter import Voter
-
 
 ADMIN_PIN: str = os.getenv("ADMIN_PIN", "1234")
 
@@ -228,10 +227,10 @@ def cast_vote(body: VoteBody):
     if admin_pk is None or counter_pk is None:
         raise HTTPException(status_code=500, detail="Public keys not initialised")
 
-    voter = Voter(body.n1, body.n2)
+    v = Voter(body.n1, body.n2)
 
     try:
-        accepted = voter.cast_vote(
+        accepted = v.cast_vote(
             vote=body.vote,
             administrator=_session.administrator,
             anonymizer=_session.anonymizer,
