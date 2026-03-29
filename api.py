@@ -65,7 +65,7 @@ def _counter_public_key() -> Optional[tuple]:
         return None
 
 
-app = FastAPI(title="CryptoVote API", root_path="/pyapi")
+app = FastAPI(title="CryptoVote API")
 
 app.add_middleware(
     CORSMiddleware,
