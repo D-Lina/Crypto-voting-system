@@ -40,7 +40,7 @@ class Counter:
         return decrypt(vote_chiffre, self._keys["private"])
     
     ## Calls verify from RSA.py
-    from utils.blind_utils import hash_message
+    from core.utils.blind_utils import hash_message
 
     def verify_ballot_signature(self, note: int, signature: int) -> bool:
      e, n = self._admin_public_key
