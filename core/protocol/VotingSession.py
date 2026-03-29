@@ -1,9 +1,9 @@
-from entities.commissioner import Commissioner
-from entities.administrator import Administrator
-from entities.anonymizer import Anonymizer
-from entities.counter import Counter
-from crypto.tth_hash import ToyTetragraphHash
-from utils.audit_log import log_action
+from core.entities.commissioner import Commissioner
+from core.entities.administrator import Administrator
+from core.entities.anonymizer import Anonymizer
+from core.entities.counter import Counter
+from core.crypto.tth_hash import ToyTetragraphHash
+from core.utils.audit_log import log_action
 
 """
 ## State machine
