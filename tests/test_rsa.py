@@ -1,6 +1,6 @@
-# test_rsa_module.py
+# test_rsa.py
 import pytest
-from rsa_module import (
+from core.crypto.rsa import (
     extended_gcd, mod_inverse, is_prime,
     generate_keys, encrypt, decrypt, sign, verify
 )
