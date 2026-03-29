@@ -1,7 +1,7 @@
 # test_blind_signature.py
 
 import pytest
-import blind_signature
+import core.crypto.blind_signature
 
 # -----------------------------
 # MOCK des dépendances
@@ -20,10 +20,10 @@ def fake_increment_rejected():
     pass
 
 # Injecter les mocks
-blind_signature.validate_vote = fake_validate_vote
-blind_signature.log_action = fake_log_action
-blind_signature.increment_total = fake_increment_total
-blind_signature.increment_rejected = fake_increment_rejected
+core.crypto.blind_signature.validate_vote = fake_validate_vote
+core.crypto.blind_signature.log_action = fake_log_action
+core.crypto.blind_signature.increment_total = fake_increment_total
+core.crypto.blind_signature.increment_rejected = fake_increment_rejected
 
 
 # -----------------------------
@@ -40,7 +40,7 @@ def hash_func(m):
 # TEST 1
 # -----------------------------
 def test_generate_blinding_factor():
-    r = blind_signature.generate_blinding_factor(91)
+    r = core.crypto.blind_signature.generate_blinding_factor(91)
 
     from math import gcd
     assert 2 <= r < 91
@@ -53,9 +53,9 @@ def test_generate_blinding_factor():
 def test_blind_signature_flow():
     message = 7
 
-    blinded, r = blind_signature.blind_message(message, PUBLIC_KEY, hash_func)
-    signed = blind_signature.blind_sign(blinded, PRIVATE_KEY)
-    signature = blind_signature.unblind_signature(signed, r, PUBLIC_KEY)
+    blinded, r = core.crypto.blind_signature.blind_message(message, PUBLIC_KEY, hash_func)
+    signed = core.crypto.blind_signature.blind_sign(blinded, PRIVATE_KEY)
+    signature = core.crypto.blind_signature.unblind_signature(signed, r, PUBLIC_KEY)
 
     e, n = PUBLIC_KEY
     assert pow(signature, e, n) == hash_func(message)
@@ -66,7 +66,7 @@ def test_blind_signature_flow():
 # -----------------------------
 def test_invalid_message():
     with pytest.raises(ValueError):
-        blind_signature.blind_message(-1, PUBLIC_KEY, hash_func)
+        core.crypto.blind_signature.blind_message(-1, PUBLIC_KEY, hash_func)
 
 
 # -----------------------------
@@ -75,8 +75,8 @@ def test_invalid_message():
 def test_invalid_unblind():
     message = 5
 
-    blinded, r = blind_signature.blind_message(message, PUBLIC_KEY, hash_func)
-    signed = blind_signature.blind_sign(blinded, PRIVATE_KEY)
+    blinded, r = core.crypto.blind_signature.blind_message(message, PUBLIC_KEY, hash_func)
+    signed = core.crypto.blind_signature.blind_sign(blinded, PRIVATE_KEY)
 
-    with pytest.raises(ValueError)
-        blind_signature.unblind_signature(signed, 0, PUBLIC_KEY)
+    with pytest.raises(ValueError) :
+        core.crypto.blind_signature.unblind_signature(signed, 0, PUBLIC_KEY)
