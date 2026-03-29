@@ -7,7 +7,8 @@ def setup():
     comm = Commissioner()
     comm.setup(n1_codes={"VALIDCODE0001"}, n2_fingerprints=set())
     admin = Administrator()
-    admin.setup(commissioner=comm, p=61, q=53)   # small primes for fast tests
+    admin.setup(commissioner=comm, p=61, q=53)
+    admin.open_election()   
     return admin, comm
 
 def test_get_public_key_returns_tuple(setup):
