@@ -2,8 +2,8 @@
 import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from models import Base, Electeur, Bulletin, Resultat
-from database import ToyTetragraphHash, generate_keys, hash_func, submit_vote, init_voters
+from databases.models import Base, Electeur, Bulletin, Resultat
+from databases.database import ToyTetragraphHash, generate_keys, hash_func, submit_vote, init_voters
 
 
 #  Setup DB en mémoire pour tests
