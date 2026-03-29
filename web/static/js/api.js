@@ -1,6 +1,6 @@
 
 // API Base URL
-const API_BASE = "/pyapi";
+const API_BASE = "https://vigilant-surprise-production-0a41.up.railway.app";
 
 // API Service
 const API = {
