@@ -1,5 +1,5 @@
-from crypto.tth_hash import ToyTetragraphHash
-from utils.audit_log import log_action
+from core.crypto.tth_hash import ToyTetragraphHash
+from core.utils.audit_log import log_action
 
 class Commissioner:
     """
