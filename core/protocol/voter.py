@@ -1,8 +1,8 @@
-from crypto.blind_signature import blind_message, unblind_signature
-from crypto.rsa import encrypt
-from utils.blind_utils import hash_message
-from utils.utils import convert_vote_to_int, validate_vote
-from utils.audit_log import log_action
+from core.crypto.blind_signature import blind_message, unblind_signature
+from core.crypto.rsa import encrypt
+from core.utils.blind_utils import hash_message
+from core.utils.utils import convert_vote_to_int, validate_vote
+from core.utils.audit_log import log_action
 
 
 class Voter:
