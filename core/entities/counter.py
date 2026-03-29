@@ -1,6 +1,6 @@
-from crypto.rsa import generate_keys, decrypt, verify
-from utils.audit_log import log_action
-from utils.blind_utils import hash_message
+from core.crypto.rsa import generate_keys, decrypt, verify
+from core.utils.audit_log import log_action
+from core.utils.blind_utils import hash_message
 """
     Vote counter — decrypts and validates ballots after the election closes.
 
