@@ -1,9 +1,9 @@
 import random
 from typing import Tuple, Callable
 
-from utils.audit_log import log_action
-from utils.counters import increment_total, increment_rejected
-from utils.utils import validate_vote
+from core.utils.audit_log import log_action
+from core.utils.counters import increment_total, increment_rejected
+from core.utils.utils import validate_vote
 
 from math import gcd
 
