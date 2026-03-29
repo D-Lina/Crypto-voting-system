@@ -1,4 +1,4 @@
-from core.protocol.votingsession import VotingSession
+from core.protocol.VotingSession import VotingSession
 from core.protocol.voter import Voter
 import sqlite3
 
