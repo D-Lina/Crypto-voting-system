@@ -1,5 +1,5 @@
-from protocol.votingsession import VotingSession
-from protocol.voter import Voter
+from core.protocol.votingsession import VotingSession
+from core.protocol.voter import Voter
 import sqlite3
 
 # -----------------------------
