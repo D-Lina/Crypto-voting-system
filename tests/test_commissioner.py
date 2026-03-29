@@ -1,32 +1,52 @@
 import pytest
-from entities.commissioner import Commissioner
+from core.entities.commissioner import Commissioner
+from core.crypto.tth_hash import ToyTetragraphHash
+
 
 @pytest.fixture
 def comm():
+    tth = ToyTetragraphHash()
+
+    # Real N2 codes
+    n2_1 = "CODEA12345"
+    n2_2 = "CODEB67890"
+
     c = Commissioner()
     c.setup(
         n1_codes={"AAA111BBB222", "CCC333DDD444"},
-        n2_fingerprints={"HASH1", "HASH2"}   # use real TTH outputs once you compute them
+        n2_fingerprints={tth.hash(n2_1), tth.hash(n2_2)}
     )
-    return c
+
+    return c, n2_1, n2_2
+
 
 def test_verify_n1_valid(comm):
-    assert comm.verify_n1("AAA111BBB222") is True
+    c, _, _ = comm
+    assert c.verify_n1("AAA111BBB222") is True
+
 
 def test_verify_n1_invalid(comm):
-    assert comm.verify_n1("ZZZZZZZZZZZZ") is False
+    c, _, _ = comm
+    assert c.verify_n1("ZZZZZZZZZZZZ") is False
+
 
 def test_consume_n1_removes_it(comm):
-    assert comm.consume_n1("AAA111BBB222") is True
-    assert comm.verify_n1("AAA111BBB222") is False   # gone
+    c, _, _ = comm
+    assert c.consume_n1("AAA111BBB222") is True
+    assert c.verify_n1("AAA111BBB222") is False  # removed
+
 
 def test_consume_n1_twice_fails(comm):
-    comm.consume_n1("AAA111BBB222")
-    assert comm.consume_n1("AAA111BBB222") is False  # second attempt fails
+    c, _, _ = comm
+    c.consume_n1("AAA111BBB222")
+    assert c.consume_n1("AAA111BBB222") is False
+
 
 def test_verify_n2_fingerprint_valid(comm):
-    # pick a real n2 that hashes to "HASH1" in your TTH
-    assert comm.verify_n2_fingerprint("some_n2_that_produces_HASH1") is True
+    c, n2_1, _ = comm
+    assert c.verify_n2_fingerprint(n2_1) is True
+
 
 def test_verify_n2_fingerprint_invalid(comm):
-    assert comm.verify_n2_fingerprint("RANDOM_GARBAGE_N2") is False
+    c, _, _ = comm
+    assert c.verify_n2_fingerprint("RANDOM_GARBAGE_N2") is False
