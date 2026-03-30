@@ -1032,46 +1032,48 @@ label {
 }
 /* ===================== MOBILE RESPONSIVE ===================== */
 @media (max-width: 768px) {
-  #app-shell {
-    overflow: hidden;
-  }
-
-  #sidebar {
-    transform: translateX(-100%);
-    visibility: hidden;
-    border-right: none;
-  }
-
-  #sidebar.open {
-    transform: translateX(0);
-    visibility: visible;
-  }
-
-  #sidebar-overlay {
+  #menu-toggle {
     display: none;
   }
 
-  #sidebar-overlay.open {
-    display: block;
+  #sidebar {
+    width: 60px;
+    visibility: visible;
+    transform: none;
+    border-right: 1px solid var(--border);
   }
-body {
-    overflow-x: hidden;
+
+  .brand-name,
+  .brand-sub,
+  .sidebar-keys,
+  .nav-item span {
+    display: none;
   }
-  #menu-toggle {
-    display: flex;
+
+  .sidebar-brand {
+    padding: 16px 10px;
+    justify-content: center;
+  }
+
+  .brand-icon {
+    margin: 0;
+  }
+
+  .nav-item {
+    justify-content: center;
+    padding: 12px;
   }
 
   #top-bar {
-    left: 0;
-    padding-left: 52px;
+    left: 60px;
   }
 
   #main-content {
-    margin-left: 0;
+    margin-left: 60px;
   }
 
   .page-inner {
-    padding: 24px 16px;
+    padding: 24px 12px;
   }
 
   .feature-cards {
