@@ -1037,11 +1037,12 @@ label {
   }
 
   #sidebar {
-    width: 60px;
+    width: 52px;
     visibility: visible;
     transform: none;
     border-right: 1px solid var(--border);
     background: #050a0f;
+    overflow: hidden;
   }
 
   .brand-name,
@@ -1066,11 +1067,11 @@ label {
   }
 
   #top-bar {
-    left: 60px;
+    left: 52px;
   }
 
   #main-content {
-    margin-left: 60px;
+    margin-left: 52px;
   }
 
   .page-inner {
