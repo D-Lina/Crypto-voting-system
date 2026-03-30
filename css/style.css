@@ -1041,6 +1041,7 @@ label {
     visibility: visible;
     transform: none;
     border-right: 1px solid var(--border);
+    background: #050a0f;
   }
 
   .brand-name,
