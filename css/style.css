@@ -1044,9 +1044,11 @@ label {
   }
 
   #sidebar-overlay {
+    display: none;
+  }
+#sidebar-overlay.open {
     display: block;
   }
-
   #menu-toggle {
     display: flex;
   }
