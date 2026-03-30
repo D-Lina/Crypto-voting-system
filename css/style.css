@@ -1030,3 +1030,62 @@ label {
   background: var(--border2);
   border-radius: 3px;
 }
+/* ===================== MOBILE RESPONSIVE ===================== */
+@media (max-width: 768px) {
+  #sidebar {
+    transform: translateX(-100%);
+  }
+
+  #sidebar.open {
+    transform: translateX(0);
+  }
+
+  #sidebar-overlay {
+    display: block;
+  }
+
+  #menu-toggle {
+    display: flex;
+  }
+
+  #top-bar {
+    left: 0;
+    padding-left: 52px;
+  }
+
+  #main-content {
+    margin-left: 0;
+  }
+
+  .page-inner {
+    padding: 24px 16px;
+  }
+
+  .feature-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .status-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .results-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .admin-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .setup-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .score-grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
