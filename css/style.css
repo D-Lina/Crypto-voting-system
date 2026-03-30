@@ -1034,10 +1034,13 @@ label {
 @media (max-width: 768px) {
   #sidebar {
     transform: translateX(-100%);
+    visibility: hidden;
+    border-right: none;
   }
 
   #sidebar.open {
     transform: translateX(0);
+    visibility: visible;
   }
 
   #sidebar-overlay {
