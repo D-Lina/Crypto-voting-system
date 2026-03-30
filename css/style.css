@@ -1054,7 +1054,9 @@ label {
   #sidebar-overlay.open {
     display: block;
   }
-
+body {
+    overflow-x: hidden;
+  }
   #menu-toggle {
     display: flex;
   }
