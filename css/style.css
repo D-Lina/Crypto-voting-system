@@ -1032,6 +1032,10 @@ label {
 }
 /* ===================== MOBILE RESPONSIVE ===================== */
 @media (max-width: 768px) {
+  #app-shell {
+    overflow: hidden;
+  }
+
   #sidebar {
     transform: translateX(-100%);
     visibility: hidden;
@@ -1046,9 +1050,11 @@ label {
   #sidebar-overlay {
     display: none;
   }
-#sidebar-overlay.open {
+
+  #sidebar-overlay.open {
     display: block;
   }
+
   #menu-toggle {
     display: flex;
   }
