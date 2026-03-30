@@ -113,7 +113,7 @@ const App = {
                       item.icon
                     }"/>
                 </svg>
-                ${item.label}
+                <span>${item.label}</span>
             </a>
         `
       )
