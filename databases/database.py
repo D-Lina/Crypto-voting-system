@@ -1,16 +1,22 @@
-from sqlalchemy import create_engine, event
+from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from databases.models import Base
+import os
 
-DATABASE_URL = "sqlite:///./database.db"
+# Reads the connection URL from an environment variable (recommended for security)
+DATABASE_URL = os.getenv("DATABASE_URL")
+# Example format:
+# postgresql://username:password@host:port/database_name
+# For Supabase it looks like:
+# postgresql://postgres:YOUR_PASSWORD@db.xxxxxxxxxxxx.supabase.co:5432/postgres
 
-engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
+if DATABASE_URL is None:
+    raise ValueError("DATABASE_URL environment variable is not set.")
 
-@event.listens_for(engine, "connect")
-def set_foreign_keys(dbapi_connection, connection_record):
-    cursor = dbapi_connection.cursor()
-    cursor.execute("PRAGMA foreign_keys = ON")
-    cursor.close()
+engine = create_engine(DATABASE_URL)
+# Note: No connect_args needed for PostgreSQL (that was SQLite-specific)
+# Note: The PRAGMA foreign_keys event is also removed — PostgreSQL enforces
+#       foreign keys by default, so no workaround is needed.
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
