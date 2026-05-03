@@ -1,11 +1,10 @@
 from sqlalchemy import (
-    create_engine, Column, Text, Integer,
+    Column, Text, Integer,
     Boolean, String, LargeBinary, CheckConstraint
 )
 from sqlalchemy.orm import declarative_base
 
 Base = declarative_base()
-
 
 class Electeur(Base):
     __tablename__ = 'electeurs'
@@ -13,14 +12,12 @@ class Electeur(Base):
     empreinte_n2 = Column(String(4), nullable=False)
     a_vote       = Column(Boolean, default=False)
 
-
 class Bulletin(Base):
     __tablename__ = 'bulletins'
     id           = Column(Integer, primary_key=True, autoincrement=True)
     vote_chiffre = Column(LargeBinary, nullable=False)
     signature    = Column(Text, nullable=False)
     code_n2      = Column(Text, nullable=False)
-
 
 class Resultat(Base):
     __tablename__ = 'resultats'
@@ -33,7 +30,6 @@ class Resultat(Base):
     sig_valide = Column(Boolean, nullable=False)
     n2_valide  = Column(Boolean, nullable=False)
 
-
 class User(Base):
     __tablename__ = 'users'
     __table_args__ = (
@@ -43,7 +39,6 @@ class User(Base):
     username      = Column(Text, unique=True)
     password_hash = Column(Text, nullable=False)
     role          = Column(Text, nullable=False)
-
 
 class CleRSA(Base):
     __tablename__ = 'cles_rsa'
