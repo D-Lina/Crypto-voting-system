@@ -18,7 +18,6 @@ const VotePage = {
   // Initialize vote page
   init: () => {
     VotePage.render();
-    VotePage.attachEventListeners();
   },
 
   // Render vote page
@@ -105,6 +104,9 @@ const VotePage = {
         VotePage.selectedVote
       } = ${VotePage.scoreLabels[VotePage.selectedVote]}`;
     }
+
+    // Attach event listeners AFTER the DOM is ready
+    VotePage.attachEventListeners();
   },
 
   // Attach event listeners
