@@ -1,15 +1,3 @@
-"""
-api.py — FastAPI integration layer
-Place this file inside vote_good/vote_system/ alongside main.py.
-
-The frontend expects all endpoints under /pyapi.
-Run with:
-    uvicorn api:app --reload --port 8000
-
-Then proxy /pyapi → http://localhost:8000/pyapi (e.g. via Nginx or a
-Vite/webpack dev-proxy), or serve the HTML file from FastAPI itself.
-"""
-
 import os
 import sys
 from contextlib import asynccontextmanager
@@ -28,12 +16,27 @@ from typing import Optional
 
 from core.protocol.VotingSession import VotingSession
 from core.protocol.voter import Voter
+from core.crypto.tth_hash import ToyTetragraphHash
+
+# Database imports
+from databases.database import SessionLocal
+from databases import models
 
 ADMIN_PIN: str = os.getenv("ADMIN_PIN", "1234")
 
 _session: VotingSession = VotingSession()
 _voter_count: int = 0
 _count_summary: Optional[dict] = None
+_tth = ToyTetragraphHash()
+
+
+def get_db():
+    db = SessionLocal()
+    try:
+        return db
+    except Exception:
+        db.close()
+        raise
 
 
 def _reset_session() -> None:
@@ -42,6 +45,19 @@ def _reset_session() -> None:
     _voter_count = 0
     _count_summary = None
     audit_store.reset_trail()
+
+    # Clear database tables
+    db = SessionLocal()
+    try:
+        db.query(models.Resultat).delete()
+        db.query(models.Bulletin).delete()
+        db.query(models.Electeur).delete()
+        db.query(models.CleRSA).delete()
+        db.commit()
+    except Exception as e:
+        db.rollback()
+    finally:
+        db.close()
 
 
 def _require_pin(pin: Optional[str]) -> None:
@@ -159,6 +175,44 @@ def admin_setup(body: SetupBody):
     global _voter_count
     _voter_count = len(voters_data)
 
+    # Save voters to database
+    db = SessionLocal()
+    try:
+        for v in body.voters:
+            n2_fingerprint = _tth.hash(v.n2)[:4]  # Store first 4 chars as fingerprint
+            electeur = models.Electeur(
+                code_n1=v.n1,
+                empreinte_n2=n2_fingerprint,
+                a_vote=False
+            )
+            db.merge(electeur)  # merge to avoid duplicate key errors on re-setup
+
+        # Save RSA public keys
+        admin_pk = _admin_public_key()
+        counter_pk = _counter_public_key()
+
+        if admin_pk:
+            admin_key = models.CleRSA(
+                entite="admin",
+                cle_publique=str(admin_pk),
+                cle_privee=""
+            )
+            db.merge(admin_key)
+
+        if counter_pk:
+            counter_key = models.CleRSA(
+                entite="decompte",
+                cle_publique=str(counter_pk),
+                cle_privee=""
+            )
+            db.merge(counter_key)
+
+        db.commit()
+    except Exception as e:
+        db.rollback()
+    finally:
+        db.close()
+
     admin_pk = _admin_public_key()
     counter_pk = _counter_public_key()
 
@@ -193,6 +247,24 @@ def admin_count(body: AdminActionBody):
         _count_summary = summary
     except RuntimeError as exc:
         raise HTTPException(status_code=400, detail=str(exc))
+
+    # Save results to database
+    db = SessionLocal()
+    try:
+        results = _session.get_results()
+        for r in results:
+            resultat = models.Resultat(
+                code_n2=r["code_n2"],
+                note=r["note"],
+                sig_valide=r["sig_valide"],
+                n2_valide=r["n2_valide"]
+            )
+            db.merge(resultat)
+        db.commit()
+    except Exception as e:
+        db.rollback()
+    finally:
+        db.close()
 
     return {"state": _session.state, **summary}
 
@@ -249,6 +321,35 @@ def cast_vote(body: VoteBody):
             status_code=400,
             detail="Ballot rejected — invalid N1 or already voted"
         )
+
+    # Save ballot to database
+    db = SessionLocal()
+    try:
+        # Get the last ballot from anonymizer (the one just submitted)
+        ballots = _session.anonymizer.get_ballots()
+        if ballots:
+            last_ballot = ballots[-1]
+            bulletin = models.Bulletin(
+                vote_chiffre=last_ballot["vote_chiffre"].to_bytes(
+                    (last_ballot["vote_chiffre"].bit_length() + 7) // 8, "big"
+                ),
+                signature=last_ballot["signature"],
+                code_n2=last_ballot["code_n2"]
+            )
+            db.add(bulletin)
+
+        # Mark voter as having voted
+        electeur = db.query(models.Electeur).filter(
+            models.Electeur.code_n1 == body.n1
+        ).first()
+        if electeur:
+            electeur.a_vote = True
+
+        db.commit()
+    except Exception as e:
+        db.rollback()
+    finally:
+        db.close()
 
     return {"ok": True}
 
