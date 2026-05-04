@@ -1,6 +1,6 @@
 
 // API Base URL
-const API_BASE = "https://vigilant-surprise-production-0a41.up.railway.app";
+const API_BASE = "https://web-production-307bb.up.railway.app";
 
 // API Service
 const API = {
