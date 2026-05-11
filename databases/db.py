@@ -1,3 +1,4 @@
+# Il sert uniquement à lancer la création manuelle des tables depuis le terminal :
 from databases.database import init_db  # importe la fonction qui crée les tables
 
 # s'exécute uniquement si on lance ce fichier directement : python db.py
